@@ -26,10 +26,8 @@ size_t ft_strlen(const char *s)
 
 char *ft_strchr(const char *s, int c)
 {
-    int i;
     char *ptr;
     
-    i = 0;
     ptr = (char*)s;
     while (*ptr)
     {
