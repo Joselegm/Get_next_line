@@ -6,7 +6,7 @@
 /*   By: joselegm <joselegm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 18:56:01 by joselegm          #+#    #+#             */
-/*   Updated: 2024/07/09 19:00:40 by joselegm         ###   ########.fr       */
+/*   Updated: 2024/07/18 17:15:03 by joselegm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,34 @@ char *ft_new_line(char *str1)
         k++;
     }
     new_file[k] = '\0';
-    //free (str1);  (???)
+    free (str1);
     return (new_file);
+}
+char *get_next_line(int fd)
+{
+    int count;
+    char *newline;
+    static char *buff;
+    
+    if (fd < 0 || BUFFER_SIZE <= 0)
+        return (NULL);
+    count = 1;
+    newline = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+    if (!newline)
+        return (NULL);
+    while (!ft_strchr(buff, '\n') && newline != 0)
+    {
+        count = read(fd, newline, BUFFER_SIZE);
+        if (count == -1)
+        {
+            free(newline);
+            return (NULL);
+        }
+        newline[count] = '\0';
+        buff = ft_strjoin(buff, newline);
+    }
+    free(newline);
+    newline = ft_readline(buff);
+    buff = newline;
+    return (newline);
 }
